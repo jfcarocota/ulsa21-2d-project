@@ -30,6 +30,11 @@ public class Player : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector2.right * axis.x * moveSpeed * Time.deltaTime);
+        if(jumpButton && IsGrounding)
+        {
+            anim.SetTrigger("jump");
+            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
     }
 
     void LateUpdate() 
@@ -41,10 +46,9 @@ public class Player : MonoBehaviour
     //para cosas de fisica
     void FixedUpdate() 
     {
-        if(jumpButton && IsGrounding)
-        {
-            rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-        }
+        //Debug.Log(rb2D.velocity.y);
+        anim.SetFloat("velocityY", rb2D.velocity.y);
+        anim.SetBool("ground", IsGrounding);
     }
 
     Vector2 axis => new Vector2(Input.GetAxis("Horizontal"),  Input.GetAxis("Vertical"));
@@ -59,5 +63,15 @@ public class Player : MonoBehaviour
     {
         Gizmos.color = rayColor;
         Gizmos.DrawRay(transform.position, Vector2.down * rayDistance);    
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.CompareTag("Coin"))
+        {
+            Coin coin = other.GetComponent<Coin>();
+            Destroy(other.gameObject);
+            Debug.Log(coin.Points);
+        }    
     }
 }
