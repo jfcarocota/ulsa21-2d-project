@@ -14,23 +14,41 @@ public class Player : MonoBehaviour
     Rigidbody2D rb2D;
 
     [SerializeField]
-    Color rayColor = Color.magenta;
-    [SerializeField, Range(0.1f, 15f)]
-    float rayDistance = 5f;
-    [SerializeField]
-    LayerMask groundLayer;
+    ContactFilter2D groundFilter;
+
+    PlayerControls playerControls;
 
     void Awake()
     {
         spr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
+        playerControls = new PlayerControls();
+    }
+
+    void Start()
+    {
+        playerControls.Gameplay.Jump.performed += ctx => Jump();
+    }
+
+    void OnEnable()
+    {
+        playerControls.Enable();
+    }
+
+    void OnDisable() 
+    {
+        playerControls.Disable();
     }
 
     void Update()
     {
         transform.Translate(Vector2.right * axis.x * moveSpeed * Time.deltaTime);
-        if(jumpButton && IsGrounding)
+    }
+
+    void Jump()
+    {
+        if(IsGrounding)
         {
             anim.SetTrigger("jump");
             rb2D.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
@@ -43,27 +61,17 @@ public class Player : MonoBehaviour
         anim.SetFloat("moveX", Mathf.Abs(axis.x));
     }
 
-    //para cosas de fisica
     void FixedUpdate() 
     {
-        //Debug.Log(rb2D.velocity.y);
         anim.SetFloat("velocityY", rb2D.velocity.y);
         anim.SetBool("ground", IsGrounding);
     }
 
-    Vector2 axis => new Vector2(Input.GetAxis("Horizontal"),  Input.GetAxis("Vertical"));
+    Vector2 axis => playerControls.Gameplay.Movement.ReadValue<Vector2>();
 
     bool flipSprite => axis.x > 0 ? false : axis.x < 0 ? true : spr.flipX;
 
-    bool jumpButton => Input.GetButtonDown("Jump");
-
-    bool IsGrounding => Physics2D.Raycast(transform.position, Vector2.down, rayDistance, groundLayer); 
-
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = rayColor;
-        Gizmos.DrawRay(transform.position, Vector2.down * rayDistance);    
-    }
+    bool IsGrounding => rb2D.IsTouching(groundFilter);
 
     void OnTriggerEnter2D(Collider2D other)
     {
@@ -72,7 +80,6 @@ public class Player : MonoBehaviour
             Coin coin = other.GetComponent<Coin>();
             GameManager.instance.GetScore.AddPoints(coin.Points);
             Destroy(other.gameObject);
-            //Debug.Log(coin.Points);
         }    
     }
 }
