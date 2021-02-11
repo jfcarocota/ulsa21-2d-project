@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c90217da7a934149907bd562c8bd2e1, type: 3}
+  m_Name: Coins warning
+  m_EditorClassIdentifier: 
+  message: "Para ganar puntos, recoge esas monedas de colores que aparecen flotando.
+    Las amarillas son las de menor valor (10 puntos), despu\xE9s est\xE1n las rojas
+    (30 puntos) y al final las azules que son las mas valisosas (50 puntos)."
+  borderColor: {r: 1, g: 0.7132068, b: 0, a: 1}

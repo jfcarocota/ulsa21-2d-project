@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     Score score;
+    [SerializeField]
+    UIAdvice uiAdvice;
 
     void Awake() 
     {
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     public Score GetScore => score;
+    public UIAdvice GetUIAdvice => uiAdvice;
 }
 
 

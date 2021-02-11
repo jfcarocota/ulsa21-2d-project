@@ -42,3 +42,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: ground
+    uniqueID: 3727173889
+    locked: 0
+  - name: stuffs
+    uniqueID: 4168019153
+    locked: 0
+  - name: Grass
+    uniqueID: 3357973443
+    locked: 0
+  - name: Player
+    uniqueID: 3908373449
+    locked: 0
+  - name: coins
+    uniqueID: 1673208945
+    locked: 0
+  - name: indicator
+    uniqueID: 1603432727
+    locked: 0
