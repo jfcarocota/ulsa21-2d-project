@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     Score score;
     [SerializeField]
     UIAdvice uiAdvice;
+    [SerializeField]
+    GameObject mobileControls;
 
     void Awake() 
     {
@@ -22,6 +24,13 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }   
+    }
+
+    void Start()
+    {
+        #if UNITY_ANDROID || UNITY_IOS
+            mobileControls.SetActive(true);
+        #endif
     }
 
     public Score GetScore => score;
